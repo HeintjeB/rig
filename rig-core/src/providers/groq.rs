@@ -334,7 +334,7 @@ impl CompletionModel {
 impl completion::CompletionModel for CompletionModel {
     type Response = CompletionResponse;
 
-    #[cfg_attr(feature = "worker", worker::send)]
+    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
     async fn completion(
         &self,
         completion_request: CompletionRequest,
@@ -402,7 +402,7 @@ impl TranscriptionModel {
 impl transcription::TranscriptionModel for TranscriptionModel {
     type Response = TranscriptionResponse;
 
-    #[cfg_attr(feature = "worker", worker::send)]
+    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
     async fn transcription(
         &self,
         request: transcription::TranscriptionRequest,

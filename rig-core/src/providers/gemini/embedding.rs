@@ -42,7 +42,7 @@ impl embeddings::EmbeddingModel for EmbeddingModel {
     }
 
     /// <https://ai.google.dev/api/embeddings#batch_embed_contents-SHELL>
-    #[cfg_attr(feature = "worker", worker::send)]
+    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
     async fn embed_texts(
         &self,
         documents: impl IntoIterator<Item = String> + Send,

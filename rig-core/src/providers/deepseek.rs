@@ -431,7 +431,7 @@ impl DeepSeekCompletionModel {
 impl CompletionModel for DeepSeekCompletionModel {
     type Response = CompletionResponse;
 
-    #[cfg_attr(feature = "worker", worker::send)]
+    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
     async fn completion(
         &self,
         completion_request: CompletionRequest,

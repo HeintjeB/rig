@@ -46,8 +46,7 @@ impl TranscriptionModel {
 impl transcription::TranscriptionModel for TranscriptionModel {
     type Response = TranscriptionResponse;
 
-    #[cfg_attr(not(target_arch = "wasm32"), async_trait)]
-    #[cfg_attr(target_arch = "wasm32",    async_trait(?Send))]
+    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
     async fn transcription(
         &self,
         request: transcription::TranscriptionRequest,
