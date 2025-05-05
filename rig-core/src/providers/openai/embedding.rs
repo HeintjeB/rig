@@ -58,7 +58,8 @@ impl embeddings::EmbeddingModel for EmbeddingModel {
         self.ndims
     }
 
-    #[cfg_attr(all(feature = "worker", not(target_arch = "wasm32")), worker::send)]
+    #[cfg_attr(not(target_arch = "wasm32"), async_trait)]
+    #[cfg_attr(target_arch = "wasm32",    async_trait(?Send))]
   //  #[cfg_attr(feature = "worker", worker::send)]
     async fn embed_texts(
         &self,
